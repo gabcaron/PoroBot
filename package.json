@@ -11,9 +11,16 @@
     "url": "git+https://github.com/gabcaron/PoroBot.git"
   },
   "keywords": [
-    "PoroBot"
+    "PoroBot",
+    "leagueoflegends",
+    "api",
+    "nodejs",
+    "discordjs"
   ],
-  "author": "Gab CARON",
+  "author": {
+    "name": "Gab CARON",
+    "email": "gabin@gabincaron.com"
+  },
   "license": "ISC",
   "bugs": {
     "url": "https://github.com/gabcaron/PoroBot/issues"
