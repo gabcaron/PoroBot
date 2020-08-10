@@ -1,6 +1,5 @@
 require('dotenv').config();
 const fs = require('fs');
-const riot = require('./node-api.js');
 const Discord = require('discord.js');
 const { prefix } = require("./config.json");
 const { timeStamp } = require('console');
