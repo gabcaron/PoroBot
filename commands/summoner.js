@@ -1,4 +1,7 @@
-const riot = require('../node-api.js');
+require('dotenv').config();
+const RiotAPI = require('./riot-api.js');
+const axios = require('axios');
+const XMLHttpRequest = require('xmlhttprequest').XMLHttpRequest;
 
 module.exports = {
     name: 'summoner',
@@ -18,7 +21,31 @@ module.exports = {
             summonerName = summonerName + ' ' + args[n];
         }
 
-        riot.summoner.byName(summonerName, {}, console.log);
-        message.channel.send(summonerName);
+        const apiKey = process.env.RIOT_API_KEY;
+        /*axios.get('https://euw1.api.riotgames.com/lol/summoner/v4/summoners/by-name/' + summonerName + '?api_key=' + apiKey)
+            .then(response => {
+                console.log(response.data);
+                //sumName = response.data.name;
+                //sumLevel = response.data.summonerLevel;
+                //sumId = response.data.id;
+            })
+            .catch(error => {
+                console.log(error);
+            });
+        */
+
+        var requestURL = 'https://euw1.api.riotgames.com/lol/summoner/v4/summoners/by-name/' + summonerName + '?api_key=' + apiKey;
+        var request = new XMLHttpRequest();
+        request.open('GET', requestURL);
+        request.responseType = 'json';
+        request.send();
+
+        request.onload = function() {
+            var summonerJSON = request.response;
+            var summoner = JSON.stringify(summonerJSON);
+            console.log(summoner);
+        }
+
+        //message.channel.send(sumName /*+ ' ' + sumLevel*/);
     }
 }

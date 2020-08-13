@@ -4,7 +4,7 @@ var querystring = require('querystring');
 var app = {
     httpProtocol: 'https', // http, https
     timeout: 5000, // max execution time (milliseconds)
-    developerKey: 'RGAPI-7dee6c8d-4089-4b4f-ba97-5370e515f7c9' // Riot API Key
+    developerKey: 'RGAPI-914af4c8-4cc5-4ae9-a662-6c9b99081281' // Riot API Key
 }
 
 //////////////
@@ -66,7 +66,8 @@ app.league = {
      * @param {Function(!Error, Object)} callback
      */
     bySummoner: function(summonerIds, vars, cb) {
-        app.talk('lol/' + app.settings.region + '/v2.5/league/by-summoner/' + summonerIds, vars, cb, app.settings.region)
+        app.talk('lol/league/v4/entries/by-summoner/' + summonerIds, vars, cb)
+        app.talk('lol/summoner/v4/summoners/by-name/' + summonerNames, vars, cb)
     },
     /**
      * Get league entries mapped by summoner ID for a given list of summoner IDs (REST)
