@@ -1,7 +1,9 @@
 require('dotenv').config();
 const RiotAPI = require('./riot-api.js');
 const axios = require('axios');
+const { Http2ServerRequest } = require('http2');
 const XMLHttpRequest = require('xmlhttprequest').XMLHttpRequest;
+const lol = require('./lol-api');
 
 module.exports = {
     name: 'summoner',
@@ -33,19 +35,39 @@ module.exports = {
                 console.log(error);
             });
         */
+        
+        const https = require('https');
+        const url = 'https://euw1.api.riotgames.com/lol/summoner/v4/summoners/by-name/';
+        const url2 = 'https://euw1.api.riotgames.com/lol/league/v4/entries/by-summoner/';
+        const api_link = '?api_key=' + apiKey;
 
-        var requestURL = 'https://euw1.api.riotgames.com/lol/summoner/v4/summoners/by-name/' + summonerName + '?api_key=' + apiKey;
-        var request = new XMLHttpRequest();
-        request.open('GET', requestURL);
-        request.responseType = 'json';
-        request.send();
+        https.get((url+summonerName+api_link), res => {
+            res.setEncoding('utf8');
+            let body = '';
+            res.on('data', data => {
+                body += data;
+            });
+            res.on('end', () => {
+                body = JSON.parse(body);
+                console.log(body);
+                
+                https.get((url2+body.id+api_link), res => {
+                    res.setEncoding('utf8');
+                    let body2 = '';
+                    res.on('data', data => {
+                        body2 += data;
+                    });
+                    res.on('end', () => {
+                        body2 = JSON.parse(body2);
+                        console.log(body2);
+                        message.channel.send(body.name + ' ' + body2[0].queueType);
+                    });
+                });
+                //message.channel.send(body.accountId + ' ' + body.summonerLevel);
+            });
+        });
 
-        request.onload = function() {
-            var summonerJSON = request.response;
-            var summoner = JSON.stringify(summonerJSON);
-            console.log(summoner);
-        }
+        /*message.channel.send(body.title);*/
 
-        //message.channel.send(sumName /*+ ' ' + sumLevel*/);
     }
 }
