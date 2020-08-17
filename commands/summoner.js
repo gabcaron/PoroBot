@@ -46,6 +46,21 @@ module.exports = {
                     res.on('end', () => {
                         body2 = JSON.parse(body2);
                         console.log(body2);
+
+                        let solo_duo_rank = '';
+                        let flex_rank = '';
+
+                        if(!body2[0]) {
+                            solo_duo_rank = 'Unrank';
+                        } else {
+                            solo_duo_rank = body2[0].tier + ' ' + body2[0].rank;
+                        }
+
+                        if(!body2[1]) {
+                            flex_rank = 'Unrank';
+                        } else {
+                            flex_rank = body2[1].tier + ' ' + body2[1].rank;
+                        }
                         
                         const exampleEmbed = new Discord.MessageEmbed()
                             .setColor('#0099ff')
@@ -55,8 +70,8 @@ module.exports = {
                             .setThumbnail('http://ddragon.leagueoflegends.com/cdn/10.16.1/img/profileicon/' + body.profileIconId + '.png')
                             .addFields(
                                 { name: '\u200B', value: '\u200B' },
-                                { name: 'Solo/Duo', value: body2[0].tier + ' ' + body2[0].rank, inline: true },
-                                { name: 'Flex', value: body2[1].tier + ' ' + body2[1].rank, inline: true },
+                                { name: 'Solo/Duo', value: solo_duo_rank, inline: true },
+                                { name: 'Flex', value: flex_rank, inline: true },
                             )
                             .setTimestamp()
                             .setFooter('PoroBot', 'https://cdn.discordapp.com/avatars/717798439580205106/a9428a35b6e426e5d77a2842e3d2c902.webp');
